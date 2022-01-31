@@ -1,14 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Component } from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { MyProvider, MyContext } from './src/context/index';
+import StageOne from './src/components/stage1';
+import StageTwo from './src/components/stage2';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Test</Text>
-      <StatusBar style="auto" />
-      <Button title='Click Me' onPress={()=>alert("Clicked")}></Button>
-    </View>
-  );
+const Provider = (props: any) => {
+  return <MyProvider>
+    {props.children}
+  </MyProvider>
+};
+class App extends Component {
+
+  static contextType?= MyContext;
+
+  render() {
+    return (
+      <Provider>
+        <ScrollView>
+          <View style={styles.container}>
+           
+           {
+             this.context.stage === 1 ?
+             <StageOne/> : 
+             <StageTwo/>
+           }
+
+          </View>
+        </ScrollView>
+      </Provider>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -17,5 +38,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 80,
   },
 });
+
+export default App;
