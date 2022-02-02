@@ -1,34 +1,41 @@
-import { Component } from 'react';
+import { Component, useContext } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { MyProvider, MyContext } from './src/context/index';
 import StageOne from './src/components/stage1';
 import StageTwo from './src/components/stage2';
+import Toast from 'react-native-toast-message';
 
 const Provider = (props: any) => {
   return <MyProvider>
     {props.children}
   </MyProvider>
 };
+
+const AppWrapper = () => {
+
+  const context = useContext(MyContext);
+  return (
+    <>
+      <ScrollView>
+        <View style={styles.container}>
+
+          {
+            context.data.stage === 1 ?
+              <StageOne /> :
+              <StageTwo />
+          }
+
+        </View>
+      </ScrollView>
+      <Toast />
+    </>
+  );
+}
 class App extends Component {
-
-  static contextType?= MyContext;
-
   render() {
-    return (
-      <Provider>
-        <ScrollView>
-          <View style={styles.container}>
-           
-           {
-             this.context.data.stage === 1 ?
-             <StageOne/> : 
-             <StageTwo/>
-           }
-
-          </View>
-        </ScrollView>
-      </Provider>
-    );
+    return <Provider>
+      <AppWrapper></AppWrapper>
+    </Provider>
   }
 }
 

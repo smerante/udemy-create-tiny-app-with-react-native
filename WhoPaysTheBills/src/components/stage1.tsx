@@ -71,6 +71,11 @@ const StageOne = () => {
 
                             </ListItem>
                         })}
+                        <Button
+                            title='Find who pays'
+                            onPress={() => context.nextStage()}
+                            buttonStyle={styles.button}
+                        />
                     </>
                 }
             </View>
