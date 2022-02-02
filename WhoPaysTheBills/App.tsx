@@ -20,7 +20,7 @@ class App extends Component {
           <View style={styles.container}>
            
            {
-             this.context.stage === 1 ?
+             this.context.data.stage === 1 ?
              <StageOne/> : 
              <StageTwo/>
            }
