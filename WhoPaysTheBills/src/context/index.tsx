@@ -10,6 +10,8 @@ const initalState = {
     addPlayer: (name: string) => { },
     removePlayer: (i: number) => { },
     nextStage: () => { },
+    resetGame: () => { },
+    tryAgain: () => { },
 };
 
 const MyContext = React.createContext(initalState);
@@ -40,6 +42,19 @@ class MyProvider extends Component {
         }));
     }
 
+
+    generateLoser = () => {
+        const { players } = this.state.data;
+        this.setState((prevState: any) => ({
+            ...prevState,
+            data: {
+                ...prevState.data,
+                result: players[Math.floor(Math.random() * players.length)],
+            }
+        }));
+
+    }
+
     nextStageHandler = () => {
         const { players } = this.state.data;
         if (players.length > 1) {
@@ -49,7 +64,9 @@ class MyProvider extends Component {
                     ...prevState.data,
                     stage: 2,
                 }
-            }));
+            }), () => {
+                this.generateLoser()
+            });
         } else {
             Toast.show({
                 type: 'error',
@@ -58,6 +75,15 @@ class MyProvider extends Component {
             })
         }
     }
+    resetGameHandler = () => {
+        this.setState((prevState: any) => ({
+            ...prevState,
+            data: {
+                ...initalState.data
+            }
+        }));
+    }
+
     render() {
         return (
             <>
@@ -66,6 +92,8 @@ class MyProvider extends Component {
                     addPlayer: this.addPlayerHandler,
                     removePlayer: this.removePlayerHandler,
                     nextStage: this.nextStageHandler,
+                    tryAgain: this.generateLoser,
+                    resetGame: this.resetGameHandler,
                 }}>
                     {this.props.children}
                 </MyContext.Provider>

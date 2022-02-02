@@ -24,7 +24,7 @@ const StageOne = () => {
                         .max(maxNameLength, `Max amount of characters is ${maxNameLength}`)
                         .required('Name is required'),
                 })}
-                onSubmit={(values, { resetForm }) => { context.addPlayer(values.player) }}>
+                onSubmit={(values, { resetForm }) => { context.addPlayer(values.player); resetForm(); }}>
                 {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
                     <>
                         <Text>Who Pays The Bill?</Text>
